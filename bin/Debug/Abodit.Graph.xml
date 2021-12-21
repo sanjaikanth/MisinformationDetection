@@ -1,0 +1,1346 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Abodit.Graph</name>
+    </assembly>
+    <members>
+        <member name="T:Abodit.Graph.DotGraphClusterStyle">
+            <summary>
+            Style for a cluster
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.DotGraphEdgeStyle">
+            <summary>
+            Style for an edge
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.DotGraphNodeStyle">
+            <summary>
+            Style for a node
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.DotGraphNodeShape">
+            <summary>
+            Node shapes
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.Base.GraphBase`2">
+            <summary>
+            Base class for <see cref="T:Abodit.Immutable.Graph`2"/> and <see cref="T:Abodit.Mutable.Graph`2"/>
+            </summary>
+            <remarks>
+            Shares nodes with other graphs. Edges are stored as linked lists indexed by both start node and end node.
+            </remarks>
+        </member>
+        <member name="T:Abodit.Graph.Base.GraphBase`2.Edge">
+            <summary>
+            A relationship between two objects
+            </summary>
+            <remarks>
+            These are not stored in the graph per se but are generated on the fly when the graph is queried
+            so do not expect them to be reference equals for the same edge in the future.
+            </remarks>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.Edge.Start">
+            <summary>
+            The start node
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.Edge.Predicate">
+            <summary>
+            The edge predicate (relation)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.Edge.End">
+            <summary>
+            The end node
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Edge.#ctor(`0,`1,`0)">
+            <summary>
+            Creates a new instance of the <see cref="T:Abodit.Graph.Base.GraphBase`2.Edge"/> class
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Edge.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Edge.Equals(Abodit.Graph.Base.GraphBase{`0,`1}.Edge)">
+            <summary>
+            Compare two edges for equality of their start, end and predicate values
+             </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Edge.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Edge.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Edge.op_Equality(Abodit.Graph.Base.GraphBase{`0,`1}.Edge,Abodit.Graph.Base.GraphBase{`0,`1}.Edge)">
+            <summary>
+            Equals
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Edge.op_Inequality(Abodit.Graph.Base.GraphBase{`0,`1}.Edge,Abodit.Graph.Base.GraphBase{`0,`1}.Edge)">
+            <summary>
+            Not equals
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.Limit">
+            <summary>
+            Limit the number of edges that can be attached to any node
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.#ctor">
+            <summary>
+            Create a new empty graph
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.#ctor(System.Collections.Concurrent.ConcurrentDictionary{`0,Abodit.Graph.Base.GraphBase{`0,`1}.PredicateNext},System.Collections.Concurrent.ConcurrentDictionary{`0,Abodit.Graph.Base.GraphBase{`0,`1}.PredicatePrevious})">
+            <summary>
+            Create a new <see cref="T:Abodit.Graph.Base.GraphBase`2"/>
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.StartIndexedEdges">
+            <summary>
+            Edges arranged by start node
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.EndIndexedEdges">
+            <summary>
+            Edges arrange by end node
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.Nodes">
+            <summary>
+            Enumerate all the nodes
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.StartNodes">
+            <summary>
+            Enumerate all the nodes with no priors
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.EndNodes">
+            <summary>
+            Enumerate all the nodes with no successors
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Contains(`0)">
+            <summary>
+            Does the graph contain this node?
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Any(`0,System.Func{`0,System.Boolean})">
+            <summary>
+            Does the graph contain a matching node?
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.GetNodes``1">
+            <summary>
+            Examine every node in the graph for ones of type T
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.Edges">
+            <summary>
+            Get all the edges of the graph
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.ForwardEdgesByNode">
+            <summary>
+            Get edges going forward grouped by node
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.BackwardEdgesByNode">
+            <summary>
+            Get edges going backward grouped by node
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.BackEdges">
+            <summary>
+            Get all the back edges of the graph (for testing)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Follow(`0)">
+            <summary>
+            Find all the outgoing edges from a vertex
+            </summary>
+            <remarks>
+            A single step in the graph away from a node
+            </remarks>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Follow(`0,`1[])">
+            <summary>
+            Find all the outgoing edges from a vertex that match at least one of the listed predicates
+            </summary>
+            <remarks>
+            A single step in the graph away from a node
+            </remarks>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Follow(`0,System.Func{`0,`1,`0,System.Boolean})">
+            <summary>
+            Find all the outgoing edges from a vertex that match a condition on the edge
+            </summary>
+            <remarks>
+            A single step in the graph away from a node
+            </remarks>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Siblings(`0,`1[])">
+            <summary>
+            Find all the siblings of a node by following one or more predicates backwards
+            to find parent nodes and then forwards to find children at the same level
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Back(`0)">
+            <summary>
+            Find all the outgoing edges from a vertex
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Back(`0,`1[])">
+            <summary>
+            Find all the outgoing edges from a vertex with a given predicate (or null)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Back(`0,System.Func{`0,`1,`0,System.Boolean})">
+            <summary>
+            Find all the outgoing edges from a vertex that match a condition on the edge
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.Search``1(`0,Abodit.Graph.ISearchOrder{`0},`1)">
+            <summary>
+            Perform a search of the graph following a given predicate over nodes of a given type
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.TopologicalSortApprox">
+            <summary>
+            Topological sort approx
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PageRank(System.Int32,System.Double)">
+            <summary>
+            PageRank algorithm on Graph assuming equal weighting on each edge type
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.GetEnumerator">
+            <summary>
+            IEnumerable implementation
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.Base.GraphBase`2.PredicateNext">
+            <summary>
+            A predicate, object pair pointing forwards (stored in a linked list)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.PredicateNext.Predicate">
+            <summary>
+            The predicate on the edge
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.PredicateNext.End">
+            <summary>
+            The node at the far end
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Base.GraphBase`2.PredicateNext.Next">
+            <summary>
+            Linked next object
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicateNext.#ctor(`1,`0)">
+            <summary>
+            Create a new instance of the <see cref="T:Abodit.Graph.Base.GraphBase`2.PredicateNext"/> class
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicateNext.Chain">
+            <summary>
+            Enumerates a chain of PredicateNext objects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicateNext.GetEnumerator">
+            <summary>
+            IEnumerable implementation
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicateNext.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:Abodit.Graph.Base.GraphBase`2.PredicatePrevious">
+            <summary>
+            A predicate, object pair pointing backwards (stored in a linked list)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.PredicatePrevious.Predicate">
+            <summary>
+            The predicate (Edge type)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.PredicatePrevious.Start">
+            <summary>
+            The start node
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Base.GraphBase`2.PredicatePrevious.Next">
+            <summary>
+            A linked list of further items
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicatePrevious.#ctor(`1,`0)">
+            <summary>
+            Creates a new instance of the <see cref="T:Abodit.Graph.Base.GraphBase`2.PredicatePrevious"/> class
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicatePrevious.Chain">
+            <summary>
+            Enumerates the chain
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicatePrevious.GetEnumerator">
+            <summary>
+            IEnumerable implementation
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Base.GraphBase`2.PredicatePrevious.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:Abodit.Graph.IDotGraphEdge">
+            <summary>
+            An edge that can render nicely as a DotGraph
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphEdge.DotLabel">
+            <summary>
+            A label for the edge
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.IDotGraphEdgeStyle">
+            <summary>
+            An edge can be styled with a dot graph style, e.g. dotted
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphEdgeStyle.Style">
+            <summary>
+            Gets the style for the edge
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.IDotGraphEdgeColor">
+            <summary>
+            An edge can be colored, e.g. "red" or "#E04040"
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphEdgeColor.Color">
+            <summary>
+            Gets the color for the edge
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.IDotGraphEdgeThickness">
+            <summary>
+            An edge can have a thickness
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphEdgeThickness.Thickness">
+            <summary>
+            Gets the thickness for the edge
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.IDotGraphNode">
+            <summary>
+            A node that can render nicely as a DotGraph
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphNode.Id">
+            <summary>
+            A unique ID
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphNode.DotProperties">
+            <summary>
+            A label for the node and or other properties
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphNode.IsPruned">
+            <summary>
+            Have priors been pruned?
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphNode.IsStartNode">
+            <summary>
+            Displays in first column in dot graph visualization
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.IDotGraphNodeStyle">
+            <summary>
+            Styled node
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphNodeStyle.Style">
+            <summary>
+            Gets the style for the node
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IDotGraphNodeStyle.Shape">
+            <summary>
+            Gets the shape for the node, defaults to ellipse
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.IRelation">
+            <summary>
+            An interface that Relations in Graphs may implement to indicate reflexive relationships
+            </summary>
+            <remarks>
+            This is a convenience that allows a statement to be added one way and to automatically be added
+            in the other direction too.
+            </remarks>
+        </member>
+        <member name="P:Abodit.Graph.IRelation.IsReflexive">
+            <summary>
+            Is this relationship two-way?
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.Path`1">
+            <summary>
+            A path through the graph
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Path`1.Current">
+            <summary>
+            Current in chain
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Path`1.Score">
+            <summary>
+            Score for link to previous in path
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Path`1.Previous">
+            <summary>
+            Previous in chain
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Path`1.Root">
+            <summary>
+            Root of chain
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Path`1.Pair">
+            <summary>
+            Get current pair
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Path`1.Pairs">
+            <summary>
+            Get pairs
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Path`1.Ancestors">
+            <summary>
+            Gets all ancestors of a path (including self)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Path`1.#ctor(`0,System.Double)">
+            <summary>
+            Starts a new path
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Path`1.#ctor(`0,System.Double,Abodit.Graph.Path{`0})">
+            <summary>
+            Create a new path from an existing one
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Path`1.Extend(`0,System.Double)">
+            <summary>
+            Extend a path
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Path`1.ToString">
+            <inheritdoc/>>
+        </member>
+        <member name="M:Abodit.Graph.Path`1.Convert``1(System.Func{`0,``0})">
+            <summary>
+            Convert a path of one type to a path of another type
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Path`1.Equals(Abodit.Graph.Path{`0})">
+            <inheritdoc/>>
+        </member>
+        <member name="T:Abodit.Graph.PathSet`1">
+            <summary>
+            A set of paths
+            </summary>
+            <remarks>
+            Paths are created by path finding algorithms operating on the graph
+            </remarks>
+        </member>
+        <member name="P:Abodit.Graph.PathSet`1.Paths">
+            <summary>
+            Get the paths
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.PathSet`1.#ctor(System.Collections.Generic.List{Abodit.Graph.Path{`0}})">
+            <summary>
+            Creates a new <see cref="T:Abodit.Graph.PathSet`1"/>
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.Relation">
+            <summary>
+            A predicate relationship between two nodes in a graph, e.g. parent, child, antonym, synonym, ...
+            </summary>
+            <remarks>
+            Graphs can use any type you want as the predicate (edge) type, this one is provided for convenience
+            and includes some of the more common predicates used in RDF.
+            </remarks>
+        </member>
+        <member name="P:Abodit.Graph.Relation.Name">
+            <summary>
+            Name of relation
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.Relation.IsReflexive">
+            <summary>
+            Relation is reflexive
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Relation.GetByName(System.String,System.Boolean)">
+            <summary>
+            Get an identity-mapped relation by name
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.Antonym">
+            <summary>
+            The Antonym relation
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.Synonym">
+            <summary>
+            The synonym relation
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.MemberMeronymOf">
+            <summary>
+            The Member Meronym Of relation
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.PartMeronymOf">
+            <summary>
+            The PartMeronymOf relation
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.HolonymOf">
+            <summary>
+            The HolynymOf relation
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.SimilarTo">
+            <summary>
+            The SimilarTo relation
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.ClassifiedByTopic">
+            <summary>
+            Classified by topic: points to another Noun
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.ClassifiedByRegion">
+            <summary>
+            Classified by region (points to a geographic region)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.ClassifiedByUsage">
+            <summary>
+            Classified by usage
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.PertainsTo">
+            <summary>
+            PertainsTo
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.DerivationallyRelated">
+            <summary>
+            Derivationally related, e.g. China, chinese
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.Related">
+            <summary>
+            Related (but not derivationally), e.g. knives and forks
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.Domain">
+            <summary>
+            Domain is used to describe another predicate, i.e. what can go on its left hand side
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.Range">
+            <summary>
+            Range is used to describe another predicate, i.e. what can go on its right hand side
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.WordFor">
+            <summary>
+            Points to a word node for a synset
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.NounForm">
+            <summary>
+            Points to a noun form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.VerbForm">
+            <summary>
+            Points to a verb form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.AdjectiveForm">
+            <summary>
+            Points to an adjective form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.AdjectivePositive">
+            <summary>
+            Points to a positive adjective form (obsolete - positive and negative are context dependent)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.AdjectiveNegative">
+            <summary>
+            Points to a negative adjective form (obsolete - positive and negative are context dependent)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.SuperlativeForm">
+            <summary>
+            Points to a superlative form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.ComparativeForm">
+            <summary>
+            Points to a comparative form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.AdverbForm">
+            <summary>
+            Points to an adverb form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.PastTense">
+            <summary>
+            Points to a past tense
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.FutureTense">
+            <summary>
+            Points to a future tense
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.PastParticiple">
+            <summary>
+            Points to a past participle
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.PresentParticiple">
+            <summary>
+            Points to a present participle (gerund)
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.FirstPersonSingular">
+            <summary>
+            Points to a fisrt person singular word form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.FirstPersonPlural">
+            <summary>
+            Points to a fisrt person plural word form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.SingularForm">
+            <summary>
+            Points to a singular word form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.PluralForm">
+            <summary>
+            Points to a plural word form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.CollectiveNoun">
+            <summary>
+            Points to a collective noun word form
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.Relation.RDFSType">
+            <summary>
+            Points to a parent type (e.g. lion is a mammal)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Relation.Equals(Abodit.Graph.Relation)">
+            <summary>
+            Compares two Relations for equality (reference equals since identity mapped)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Relation.ToString">
+            <summary>
+            Returns the name of this relation as an arrow text
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Relation.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.Relation.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="T:Abodit.Graph.BestFirstSearch`1">
+            <summary>
+            Best first strategy for queuing returns nodes in best order according to a comparison function
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.BestFirstSearch`1.#ctor(System.Func{`0,`0,System.Int32})">
+            <summary>
+            Creates a new <see cref="T:Abodit.Graph.BestFirstSearch`1"/>
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.BestFirstSearch`1.Count">
+            <summary>
+            Count of items queued
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.BestFirstSearch`1.Dequeue">
+            <summary>
+            Dequeue an item
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.BestFirstSearch`1.Enqueue(`0)">
+            <summary>
+            Enqueue an item
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.BreadthFirstSearch`1">
+            <summary>
+            Breadth first strategy for queuing (i.e. use a Queue)
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.BreadthFirstSearch`1.Count">
+            <summary>
+            Count of items queued
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.BreadthFirstSearch`1.Dequeue">
+            <summary>
+            Dequeue an item
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.BreadthFirstSearch`1.Enqueue(`0)">
+            <summary>
+            Enqueue an item
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.DepthFirstSearch`1">
+            <summary>
+            Depth first strategy for queuing (i.e. use a Stack)
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.DepthFirstSearch`1.Count">
+            <summary>
+            Count of items queued
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.DepthFirstSearch`1.Dequeue">
+            <summary>
+            Dequeue an item
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.DepthFirstSearch`1.Enqueue(`0)">
+            <summary>
+            Enqueue an item
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.EdgeProbability">
+            <summary>
+            An edge with a probability on it
+            </summary>
+            <remarks>
+            This is an example of the kind of relationship you can create and use on edges in a graph.
+            </remarks>
+        </member>
+        <member name="P:Abodit.Graph.EdgeProbability.Probability">
+            <inheritdoc />
+        </member>
+        <member name="P:Abodit.Graph.EdgeProbability.IsReflexive">
+            <inheritdoc />
+        </member>
+        <member name="P:Abodit.Graph.EdgeProbability.DotLabel">
+            <summary>
+            Get a label for a dot graph
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.EdgeProbability.#ctor(System.Double)">
+            <summary>
+            Creates a new <see cref="P:Abodit.Graph.EdgeProbability.Probability"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Abodit.Graph.EdgeProbability.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.EdgeProbability.Equals(Abodit.Graph.EdgeProbability)">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.EdgeProbability.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.EdgeProbability.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="T:Abodit.Graph.EnumerableEx">
+            <summary>
+            Enumerable extensions
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.EnumerableEx.Concat``1(System.Collections.Generic.IEnumerable{``0},``0)">
+            <summary>
+            Concat a value
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.EnumerableEx.ChooseOne``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Choose n elements from input in all possible ways without duplicates
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.EnumerableEx.Choose``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Choose n elements from input in all possible ways without duplicates
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.EnumerableEx.CurrentAndPrevious``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Get current and previous from a sequence
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.Extensions">
+            <summary>
+            Graph extensions for searching, filtering, projecting, ...
+            </summary>
+            <summary>
+            Graph extensions for searching, filtering, projecting, ...
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.Extensions.DistanceToEverywhere``2(Abodit.Graph.Base.GraphBase{``0,``1},``0,System.Boolean,``1)">
+            <summary>
+            Get all the nodes that can be reached by following relationships of a given type
+            returns them in sorted order according to how close they are
+            so shortest path is returned first.  Tuple includes the distance.
+            </summary>
+            <remarks>
+            Handles circular graphs too ...
+            </remarks>
+        </member>
+        <member name="M:Abodit.Graph.Extensions.ShortestPath``2(Abodit.Graph.Base.GraphBase{``0,``1},``0,``1,``0,System.Func{``1,System.Double},System.Func{System.Double,System.Double,System.Double})">
+            <summary>
+            Get all the nodes on the shortest path from A to B by following relationships of type T
+            </summary>
+            <remarks>
+            Handles circular graphs too ...
+            </remarks>
+        </member>
+        <member name="T:Abodit.Graph.IEdgeProbability">
+            <summary>
+            An edge with a probability assigned to it
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IEdgeProbability.Probability">
+            <summary>
+            The value
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.INodeProbability`1">
+            <summary>
+            A node with a probability set assigned to it
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.INodeProbability`1.N">
+            <summary>
+            The total number of people expected here (set should add to this)
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.INodeProbability`1.ProbabilitySet">
+            <summary>
+            The value
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.IProbabilitySet`1">
+            <summary>
+            A node value listing a set of possibilities
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IProbabilitySet`1.NodeProbabilities">
+            <summary>
+            Gets the node probabilities
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IProbabilitySet`1.DotLabel">
+            <summary>
+            Label for a dot graph
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.IProbabilitySet`1.Magnitude">
+            <summary>
+            Magnitude of vector
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.IProbabilitySet`1.Add(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Add two node probability sets
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.IProbabilitySet`1.Multiply(System.Double)">
+            <summary>
+            Multiply two node probability sets
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Abodit.Graph.IProbabilitySet`1.Minus(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Subtract
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.ISearchOrder`1">
+            <summary>
+            Interface for a search strategy
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.ISearchOrder`1.Count">
+            <summary>
+            Count of how many items waiting
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ISearchOrder`1.Dequeue">
+            <summary>
+            Dequeue a value
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ISearchOrder`1.Enqueue(`0)">
+            <summary>
+            Enque a value
+            </summary>
+        </member>
+        <member name="T:Abodit.Graph.ProbabilitySet`1">
+            <summary>
+            A set of items and their probabilities
+            </summary>
+            <remarks>
+            This isn't really part of the Graph library, it's here for some tests that use it, please ignore.
+            </remarks>
+        </member>
+        <member name="P:Abodit.Graph.ProbabilitySet`1.NodeProbabilities">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.#ctor(System.Collections.Generic.IDictionary{`0,System.Double})">
+            <summary>
+            Creates a new <see cref="T:Abodit.Graph.ProbabilitySet`1"/>
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.#ctor">
+            <summary>
+            Creates a new <see cref="T:Abodit.Graph.ProbabilitySet`1"/>
+            </summary>
+        </member>
+        <member name="F:Abodit.Graph.ProbabilitySet`1.Empty">
+            <summary>
+            An empty probability set
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Create(System.Collections.Generic.IEnumerable{System.ValueTuple{Abodit.Graph.ProbabilitySet{`0},System.Double}})">
+            <summary>
+            Creates a new <see cref="T:Abodit.Graph.ProbabilitySet`1"/>
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.#ctor(`0)">
+            <summary>
+            Creates a new <see cref="T:Abodit.Graph.ProbabilitySet`1"/>
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.op_Addition(Abodit.Graph.ProbabilitySet{`0},Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Adds two independent sets
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.op_Subtraction(Abodit.Graph.ProbabilitySet{`0},Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Subtracts two independent sets
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.op_Division(Abodit.Graph.ProbabilitySet{`0},System.Double)">
+            <summary>
+            Divide by a constant
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.op_Multiply(Abodit.Graph.ProbabilitySet{`0},System.Double)">
+            <summary>
+            Multiply by a constant
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.op_Multiply(System.Double,Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Multiply by a constant
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.op_UnaryNegation(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+             Unary minus
+             </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Add(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Adds two node probability sets
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.ChooseN(System.Int32)">
+            <summary>
+            Choose N of this probability set using fact that each key value pair is independent but cannot be chosen more than once
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Or(System.Collections.Generic.IEnumerable{Abodit.Graph.ProbabilitySet{`0}})">
+            <summary>
+            Or probability sets together using p(a|b) = p(a) + p(b) - p(a).p(b)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Combine(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Combines two node probability sets p(A|B) = p(A) + p(B) - p(A)p(B)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Or(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Or two node probability sets p(A|B) = p(A) + p(B) - p(A)p(B)
+            </summary>
+            <remarks>
+            Synonym for Combine
+            </remarks>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Aggregate(System.Collections.Generic.IEnumerable{Abodit.Graph.ProbabilitySet{`0}})">
+            <summary>
+            Combine a series of probability sets using p(A|B) = p(A) + p(B) - p(A)*p(B)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Harmonize(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Ensures that this set has one member for each of the other set
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Replace(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Replace the probability set with updated values
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.DotProduct(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Dot product of two node probability sets (Ai x Bi + ... An x Bn)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.SameProduct(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Same element product of two node probability sets (Ai x Bi, ... An x Bn)
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.SumSquaredDifference(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Sum squares difference (Ai - Bi) ^ 2 + ... (An x Bn) ^ 2
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Minus(Abodit.Graph.ProbabilitySet{`0})">
+            <summary>
+            Subtracts two node probability sets
+            </summary>
+        </member>
+        <member name="P:Abodit.Graph.ProbabilitySet`1.Magnitude">
+            <summary>
+            Magnitude
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Any">
+            <summary>
+            Are there any probabilities in the set?
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.Multiply(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="P:Abodit.Graph.ProbabilitySet`1.DotLabel">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Graph.ProbabilitySet`1.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="T:Abodit.Graph.RandomFirstSearch`1">
+            <summary>
+            Random first search strategy (neither a queue nor a stack)
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Abodit.Graph.RandomFirstSearch`1.Count">
+            <summary>
+            Count of items queued
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.RandomFirstSearch`1.Dequeue">
+            <summary>
+            Dequeue an item
+            </summary>
+        </member>
+        <member name="M:Abodit.Graph.RandomFirstSearch`1.Enqueue(`0)">
+            <summary>
+            Enqueue an item
+            </summary>
+        </member>
+        <member name="T:Abodit.Immutable.Graph`2">
+            <summary>
+            An in-memory immutable graph of statements (subject, predicate, object)
+            </summary>
+            <remarks>
+            Shares nodes with other graphs
+            </remarks>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.#ctor">
+            <summary>
+            Create a new empty graph
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.AddStatement(`0,`1,`0)">
+            <summary>
+            Add a statement, returns true if it was added, false if already there
+            </summary>
+            <remarks>
+            Direct loops back to self are not allowed
+            </remarks>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.AddStatement(Abodit.Graph.Base.GraphBase{`0,`1}.Edge)">
+            <summary>
+            Add a statement
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.RemoveStatement(`0,`1,`0)">
+            <summary>
+            Remove a statement
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.Union(Abodit.Immutable.Graph{`0,`1})">
+            <summary>
+            Union two graphs
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.Intersect(Abodit.Immutable.Graph{`0,`1})">
+            <summary>
+            Intersect two graphs
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.Successors``1(`0,`1)">
+            <summary>
+            Find all the outgoing edges from a vertex with a given predicate (or null) and keep following edges of that type
+            match only nodes of type T. Return the results as a tree (can be flattened using SelectMany).
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.Successors``1(System.Collections.Generic.IEnumerable{`0},`1)">
+            <summary>
+            Find all the outgoing edges from a list of node with a given predicate (or null) and keep following edges of that type
+            match only nodes of type T. Return the results as a tree (can be flattened using SelectMany).
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.Predecessors``1(`0,`1)">
+            <summary>
+            Find all the incoming edges from a vertex with a given predicate (or null) and keep following edges of that type
+            match only nodes of type T. Return the results as a tree (can be flattened using SelectMany).
+            </summary>
+        </member>
+        <member name="M:Abodit.Immutable.Graph`2.Predecessors``1(System.Collections.Generic.IEnumerable{`0},`1)">
+            <summary>
+            Find all the incoming edges from a list of nodes with a given predicate (or null) and keep following edges of that type
+            match only nodes of type T. Return the results as a tree (can be flattened using SelectMany).
+            </summary>
+        </member>
+        <member name="T:Abodit.Mutable.Graph`2">
+            <summary>
+            An in-memory, mutable graph of statements (subject, predicate, object)
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.AddStatement(`0,`1,`0)">
+            <summary>
+            Add a statement, returns true if it was added, false if already there
+            </summary>
+            <remarks>
+            Direct loops back to self are not allowed
+            </remarks>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.AddStatement(Abodit.Graph.Base.GraphBase{`0,`1}.Edge)">
+            <summary>
+            Add a statement, returns true if it was added, false if already there
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.RemoveStatement(`0,`1,`0)">
+            <summary>
+            Remove a statement
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Remove(`0)">
+            <summary>
+            Remove a node from the graph
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.RemoveEdgesBetween(`0,`0)">
+            <summary>
+            Remove edges from the graph between a pair of nodes
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.ReplaceEdge(`0,`0,`1)">
+            <summary>
+            Replace an edge in the graph
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Union(Abodit.Mutable.Graph{`0,`1})">
+            <summary>
+            Union two graphs
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Intersect(Abodit.Mutable.Graph{`0,`1})">
+            <summary>
+            Intersect two graphs
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Successors``1(`0,`1[])">
+            <summary>
+            Find all the outgoing edges from a node, optionally filtered to a set of predicates
+            match only nodes of type T along the way.
+            </summary>
+            <returns>The results as a tree (can be flattened using SelectMany). Edges are the predicates
+            that were used during the search which is only a subset of all edges between these nodes.</returns>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Successors``1(System.Collections.Generic.IEnumerable{`0},`1[])">
+            <summary>
+            Find all the outgoing edges from a list of nodes, optionally filtered to a set of predicates.
+            Match only nodes of type T along the way.
+            </summary>
+            <returns>The results as a tree (can be flattened using SelectMany). Edges are the predicates
+            that were used during the search which is only a subset of all edges between these nodes.</returns>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Predecessors``1(`0,`1[])">
+            <summary>
+            Find all the incoming edges from a vertex using a given set of predicates (or none)
+            and keep following edges of that type match only nodes of type T.
+            </summary>
+            <returns>The results as a tree (can be flattened using SelectMany). Edges are the predicates
+            that were used during the search which is only a subset of all edges between these nodes.</returns>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Predecessors``1(System.Collections.Generic.IEnumerable{`0},`1[])">
+            <summary>
+            Find all the incoming edges from a list of nodes using a given set of predicates (or empty for all)
+            and keep following edges of those types, match only nodes of type T.
+            </summary>
+            <returns>The results as a tree (can be flattened using SelectMany). Edges are the predicates
+            that were used during the search which is only a subset of all edges between these nodes.</returns>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Minimum(System.Collections.Generic.IEnumerable{`0},`1,System.Func{`1,System.Double},System.Func{`0,`0,System.Boolean},`1)">
+            <summary>
+            Shortest path with cumulative function
+            </summary>
+        </member>
+        <member name="P:Abodit.Mutable.Graph`2.DotGraph">
+            <summary>
+            Debug graph (use Graphviz)
+            </summary>
+            <remarks>
+            This is mainly for debugging - expand the DotGraph property, copy the text, paste it into Graphviz
+            </remarks>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.NodeId(`0)">
+            <summary>
+            Cleans up tuple ToString and others for dotGraph to consume
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Project``2(System.Func{`0,``0},System.Func{`1,``1})">
+            <summary>
+            Project to a new node and edge type
+            </summary>
+        </member>
+        <member name="T:Abodit.Mutable.Graph`2.PathNode">
+            <summary>
+            A node in the path (with edges)
+            </summary>
+        </member>
+        <member name="P:Abodit.Mutable.Graph`2.PathNode.Node">
+            <summary>
+            The node
+            </summary>
+        </member>
+        <member name="P:Abodit.Mutable.Graph`2.PathNode.Edges">
+            <summary>
+            Cached edges so they are only fetched once
+            </summary>
+        </member>
+        <member name="P:Abodit.Mutable.Graph`2.PathNode.SumScore">
+            <summary>
+            Sum of outbound scores
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.PathNode.#ctor(`0,System.Collections.Generic.IEnumerable{Abodit.Graph.Base.GraphBase{`0,`1}.Edge},System.Func{`1,System.Double})">
+            <summary>
+            Creates a new <see cref="T:Abodit.Mutable.Graph`2.PathNode"/>
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.PathNode.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.PathNode.Equals(Abodit.Mutable.Graph{`0,`1}.PathNode)">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.EveryPossibleNonOverlappingPath(System.Func{`1,System.Double},System.Func{`0,System.Int32},System.Func{System.Double,System.Double,System.Double},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Shortest paths to everywhere with cumulative function from Source nodes
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.EveryPossibleNonOverlappingPath(System.Collections.Generic.IEnumerable{`0},System.Func{`1,System.Double},System.Func{`0,System.Int32},System.Func{System.Double,System.Double,System.Double},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Shortest paths to everywhere with cumulative function from Source nodes
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.EveryPossibleNonOverlappingPath(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEnumerable{`0},System.Func{`1,System.Double},System.Func{`0,System.Int32},System.Func{System.Double,System.Double,System.Double},Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Shortest paths to everywhere with cumulative function
+            </summary>
+            <remarks>
+            Use the other method and let Graph figure out the start nodes
+            </remarks>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.Min``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Int32})">
+            <summary>
+            Min item in sequence by value function
+            </summary>
+        </member>
+        <member name="M:Abodit.Mutable.Graph`2.PossiblePathsHelper(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.List{Abodit.Graph.Path{Abodit.Mutable.Graph{`0,`1}.PathNode}},System.Func{`1,System.Double},System.Func{`0,System.Int32},System.Func{System.Double,System.Double,System.Double},Microsoft.Extensions.Logging.ILogger,System.Int32,System.Diagnostics.Stopwatch)">
+            <summary>
+            Shortest paths to everywhere with cumulative function
+            </summary>
+        </member>
+        <member name="M:Gapotchenko.FX.Linq.EnumerableEx.Memoize``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Memoize all elements of a sequence by ensuring that every element is retrieved only once.
+            </summary>
+            <remarks>
+            The resulting sequence is not thread safe.
+            </remarks>
+            <typeparam name="T">The type of the elements of source.</typeparam>
+            <param name="source">The source sequence.</param>
+            <returns>The sequence that fully replicates the source with all elements being memoized.</returns>
+        </member>
+        <member name="M:Gapotchenko.FX.Linq.EnumerableEx.Memoize``1(System.Collections.Generic.IEnumerable{``0},System.Boolean)">
+            <summary>
+            Memoize all elements of a sequence by ensuring that every element is retrieved only once.
+            </summary>
+            <typeparam name="T">The type of the elements of source.</typeparam>
+            <param name="source">The source sequence.</param>
+            <param name="isThreadSafe">Indicates whether resulting sequence is thread safe.</param>
+            <returns>The sequence that fully replicates the source with all elements being memoized.</returns>
+        </member>
+    </members>
+</doc>

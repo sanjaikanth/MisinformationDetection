@@ -15,6 +15,7 @@ namespace MisinformationCheck
         private List<string> lstInfo;
         public string strCheckInfo;
         DataTable dt;
+        private int threshouldCount = 5;
         public clsLCS(string StrSource)
         {
             pullAllCOVIDInfo(StrSource);
@@ -26,44 +27,67 @@ namespace MisinformationCheck
             if(ds.Tables.Count>0)
             {
                 dt = ds.Tables[0];
+                System.Data.DataColumn LCSCountColumn = new System.Data.DataColumn("LCSCount", typeof(Int32));
+                LCSCountColumn.DefaultValue = 0;
+                dt.Columns.Add(LCSCountColumn);
             }
         }
-        public Tuple<string, string,int> Descision(string strInput)
+        public Tuple<DataTable, string,int> Descision(string strInput)
         {
             Tuple<int, int> result = getLCSCount(strInput);
-            int NumberOfMatches = result.Item1;
-            int indexOfRecord = result.Item2;
-            var resultRange = dt.AsEnumerable()
-                   .Where((row, index) => int.Parse(row["MatchingCount"].ToString())== NumberOfMatches)
-                   .CopyToDataTable();
-            int RealCount = dt.AsEnumerable()
-                   .Where((row, index) => int.Parse(row["MatchingCount"].ToString()) == NumberOfMatches && row["label"].ToString() == "Real").Count();
-            int FakeCount = dt.AsEnumerable()
-       .Where((row, index) => int.Parse(row["MatchingCount"].ToString()) == NumberOfMatches && row["label"].ToString() == "Fake").Count();
-            double percentageNews = RealCount * 100.0 / ((FakeCount == 0) ? 1 : FakeCount);
-
-
-            DataRow dr = dt.Rows[indexOfRecord];
-            string ComparedTweet = dr["tweet"].ToString();
-            string TypeVal = DecideLabel(percentageNews);//  dr["label"].ToString();
-            return Tuple.Create(ComparedTweet, TypeVal, NumberOfMatches);
+            int maxMatchingCount = result.Item1;
+            DataTable dtResultMatching = dt.AsEnumerable()
+                     .Where((row, index) => int.Parse(row["LCSCount"].ToString()) == maxMatchingCount ).CopyToDataTable();            
+            string TypeVal = DecideLabel( maxMatchingCount);//  dr["label"].ToString();
+            return Tuple.Create((maxMatchingCount == 0) ? null:dtResultMatching, TypeVal, maxMatchingCount) ;
         }
-        private string DecideLabel(double percentVal)
+        private string DecideLabel( int maxMatchingCount)
         {
-            string strReturn = "";
-            if (percentVal >= 60)
+            if(maxMatchingCount<threshouldCount)
             {
-                strReturn = "Real";
+                return "Neutral";
             }
-            else if(percentVal < 60 && percentVal >=50)
+            if(dt.Rows.Count>0)
+            {
+                DataTable dtResult = dt.AsEnumerable()
+                      .Where((row, index) => int.Parse(row["LCSCount"].ToString()) == maxMatchingCount).CopyToDataTable(); ;
+                int resultCount = dtResult.Rows.Count;
+                if(resultCount == 1)// Only one row that has same max LCS count
                 {
-                strReturn = "Neutral";
+                    return dtResult.Rows[0]["label"].ToString();
+                }
+                else// More than one row that has same max LCS count
+                {
+                    int trueCount= dtResult.AsEnumerable()
+                   .Where((row, index) =>  row["label"].ToString() == "Real").Count();
+                    int fakeCount = dtResult.AsEnumerable()
+                .Where((row, index) => row["label"].ToString() == "Fake").Count();
+                    int misInformationCount = dtResult.AsEnumerable()
+                .Where((row, index) => row["label"].ToString() == "MisInformative").Count();
+                    int disinformationCount = dtResult.AsEnumerable()
+                .Where((row, index) => row["label"].ToString() == "Disinformative").Count();
+                    int unverifiedCount = dtResult.AsEnumerable()
+               .Where((row, index) => row["label"].ToString() == "Neutral").Count();
+                    int maxCount = new int[] { trueCount, fakeCount, misInformationCount, disinformationCount, unverifiedCount }.Max();
+
+                    if (trueCount == maxCount)
+                        return "Real";
+                    else if (fakeCount == maxCount)
+                        return "Fake";
+                    else if (disinformationCount == maxCount)
+                        return "Disinformative";
+                    else if (misInformationCount == maxCount)
+                        return "MisInformative";
+                    else if (unverifiedCount == maxCount)
+                        return "Neutral";
+                    else
+                        return "Neutral";
+ 
+                }
             }
-            else
-            {
-                strReturn = "Fake";
-            }
-            return strReturn;
+           
+           
+            return "Neutral";
         }
         private string processingStemming(string strSentence)
         {
@@ -86,7 +110,7 @@ namespace MisinformationCheck
         }
         public Tuple<int, int> getLCSCount(string strInput)
         {
-            int returnVal = 0;
+            int maxMatchingCount = 0;
             int index = 0;
             string strCurrentTweet = "";
             //Test Value In the article returnVal = compareString("A B C B D A B", "B D C A B A");
@@ -98,27 +122,27 @@ namespace MisinformationCheck
                 string strTweet = removeStopwords(dt.Rows[i]["tweet"].ToString());
                 strTweet = processingStemming(strTweet);
                 int matchingCount = compareString(strInput, strTweet);
-                dt.Rows[i]["MatchingCount"] = matchingCount;
-                if (matchingCount >= returnVal)
+                dt.Rows[i]["LCSCount"] = matchingCount;
+                if (matchingCount >= maxMatchingCount)
                 {
                     //If matching count are same it will take the shortest matchig one.
-                    if (matchingCount == returnVal)
+                    if (matchingCount == maxMatchingCount)
                     {
                         if (GetLength(strTweet) < GetLength(strCurrentTweet) && strCurrentTweet != "")
                         {
                             index = i;
-                            returnVal = matchingCount;
+                            maxMatchingCount = matchingCount;
                         }
                     }
                     else
                     {
                         index = i;
-                        returnVal = matchingCount;
+                        maxMatchingCount = matchingCount;
                     }
 
                 }
             }
-            return Tuple.Create(returnVal, index);
+            return Tuple.Create(maxMatchingCount, index);
         }
         private int compareString(string strInput,string strSource)
         {

@@ -20,7 +20,7 @@ namespace MisinformationCheck
         public Form1()
         {
             InitializeComponent();
-            strDSourceLocation = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"..\..\Data\SourceDataNews.xlsx");
+            strDSourceLocation = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"..\..\Data\SourceData2022.xlsx");
             objCls = new clsLCS(strDSourceLocation);
             //TestStemmer(new EnglishStemmer(), "jump", "jumping", "jumps", "jumped");
             // TestStemmer(new EnglishStemmer(), "liked");
@@ -37,11 +37,25 @@ namespace MisinformationCheck
         }
         private void BtnCheck_Click(object sender, EventArgs e)
         {
-            //"COVID-19 vaccines are effective"
-            Tuple<string, string,int> typleResult= objCls.Descision(txtCheck.Text.Trim());
+            txtResult.Text = "";
+            Tuple<DataTable, string,int> typleResult= objCls.Descision(txtCheck.Text.Trim());
             lblResultType.Text = typleResult.Item2;
-            txtResult.Text = typleResult.Item1;
+            DataTable dtMatchedRecords= typleResult.Item1;
             lblNumberOfMatches.Text = typleResult.Item3.ToString();
+
+            if(dtMatchedRecords!=null)
+            {
+                foreach (DataRow dr in dtMatchedRecords.Rows)
+                {
+                    txtResult.AppendText("Label:" + dr["label"].ToString());
+                    txtResult.AppendText(Environment.NewLine);
+                    txtResult.AppendText("Records:" + dr["tweet"].ToString());
+                    txtResult.AppendText(Environment.NewLine);
+                }
+            }
+          
+ 
+          
         }
 
         private void Form1_Load(object sender, EventArgs e)
